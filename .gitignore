@@ -1,0 +1,44 @@
+# ==========================================
+# File di Ambiente e Credenziali Segrete
+# ==========================================
+.env
+.env.local
+.env.example
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==========================================
+# Log Generati da Docker & Honeypot
+# ==========================================
+docker/cowrie-logs/*
+docker/web-logs/*
+!docker/cowrie-logs/.gitkeep
+!docker/web-logs/.gitkeep
+
+# ==========================================
+# Ambienti Virtuali Python & Dipendenze
+# ==========================================
+venv/
+.venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+
+# ==========================================
+# Dipendenze Node.js / Next.js (Dashboard)
+# ==========================================
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# ==========================================
+# OS / IDE
+# ==========================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

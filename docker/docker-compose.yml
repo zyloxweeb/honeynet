@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+
+  # Honeypot SSH/Telnet
+  cowrie:
+    image: cowrie/cowrie:latest
+    container_name: honeynet_cowrie
+    restart: always
+    ports:
+      # Mappa la porta 2222 dell'host sulla 2222 del container (SSH)
+      - "2222:2222"
+      # Mappa la porta 2223 dell'host sulla 2223 del container (Telnet)
+      - "2223:2223"
+    volumes:
+      # Mantiene i log salvati nella cartella locale
+      - ./cowrie-logs:/cowrie/cowrie-git/var/log/cowrie
+    environment:
+      - COWRIE_TELNET_ENABLED=true
+
+  # Honeypot HTTP (Trappola Web leggera per scansionatori web)
+  web-trap:
+    build: ./web-trap
+    container_name: honeynet_webtrap
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web-logs:/app/logs
