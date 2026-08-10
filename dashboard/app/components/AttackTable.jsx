@@ -54,27 +54,30 @@ export default function AttackTable() {
             ) : logs.length === 0 ? (
               <tr><td colSpan="5" style={{ padding: '16px', textAlign: 'center', color: '#64748b' }}>Nessun attacco registrato al momento.</td></tr>
             ) : (
-              logs.map((log, idx) => (
-                <tr key={log.id || idx} style={{ borderBottom: '1px solid #1e293b' }}>
-                  <td style={{ padding: '12px 8px', fontFamily: 'monospace', color: '#cbd5e1' }}>
-                    {new Date(log.timestamp).toLocaleTimeString()}
-                  </td>
-                  <td style={{ padding: '12px 8px' }}>
-                    <span style={{
-                      padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600',
-                      backgroundColor: log.source.includes('ELEGOO') ? '#ef4444' : '#3b82f6',
-                      color: '#ffffff'
-                    }}>
-                      {log.source}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px 8px', fontWeight: '600', color: '#f8fafc' }}>{log.event}</td>
-                  <td style={{ padding: '12px 8px', fontFamily: 'monospace', color: '#cbd5e1' }}>{log.src_ip || 'LOCAL'}</td>
-                  <td style={{ padding: '12px 8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8' }}>
-                    {typeof log.details === 'object' ? JSON.stringify(log.details) : log.details}
-                  </td>
-                </tr>
-              ))
+              logs.map((log, idx) => {
+                const source = log.source || 'UNKNOWN';
+                return (
+                  <tr key={log.id || idx} style={{ borderBottom: '1px solid #1e293b' }}>
+                    <td style={{ padding: '12px 8px', fontFamily: 'monospace', color: '#cbd5e1' }}>
+                      {log.timestamp ? new Date(log.timestamp).toLocaleTimeString() : '—'}
+                    </td>
+                    <td style={{ padding: '12px 8px' }}>
+                      <span style={{
+                        padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600',
+                        backgroundColor: source.includes('ELEGOO') ? '#ef4444' : '#3b82f6',
+                        color: '#ffffff'
+                      }}>
+                        {source}
+                      </span>
+                    </td>
+                    <td style={{ padding: '12px 8px', fontWeight: '600', color: '#f8fafc' }}>{log.event || '—'}</td>
+                    <td style={{ padding: '12px 8px', fontFamily: 'monospace', color: '#cbd5e1' }}>{log.src_ip || 'LOCAL'}</td>
+                    <td style={{ padding: '12px 8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8' }}>
+                      {typeof log.details === 'object' && log.details !== null ? JSON.stringify(log.details) : (log.details ?? '—')}
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
